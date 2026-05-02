@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>403 — Acceso denegado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --cream: #f7f4ef;
+      --gold: #c9a84c;
+      --muted: #6b6560;
+      --red: #b84040;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '403';
+      position: fixed;
+      font-family: 'Playfair Display', serif;
+      font-size: 40vw;
+      color: rgba(255,255,255,0.03);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* decorative rings */
+    .ring-1, .ring-2 {
+      position: fixed;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.08);
+      pointer-events: none;
+    }
+
+    .ring-1 { width: 600px; height: 600px; top: -200px; right: -200px; }
+    .ring-2 { width: 400px; height: 400px; bottom: -150px; left: -150px; }
+
+    .error-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error-logo span { color: var(--gold); }
+
+    .shield-wrap {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .shield-wrap .material-icons {
+      font-size: 3.5rem;
+      color: rgba(184,64,64,0.7);
+    }
+
+    .error-code {
+      font-family: 'Playfair Display', serif;
+      font-size: 7rem;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error-line {
+      width: 50px;
+      height: 2px;
+      background: var(--red);
+      margin: 0.8rem auto 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 0.6rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error-copy {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.9rem;
+      font-weight: 300;
+      max-width: 300px;
+      line-height: 1.9;
+      margin: 0 auto 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary {
+      background: #fff;
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.8rem;
+      border-radius: 2px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--gold); color: var(--ink); }
+    .btn-primary .material-icons { font-size: 1rem; }
+
+    .btn-secondary {
+      background: transparent;
+      color: rgba(255,255,255,0.4);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.8rem;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.12);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-secondary .material-icons { font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="ring-1"></div>
+  <div class="ring-2"></div>
+
+  <div class="error-logo">Axis<span>.</span></div>
+
+  <div class="shield-wrap">
+    <i class="material-icons">gpp_bad</i>
+  </div>
+
+  <div class="error-code">403</div>
+  <div class="error-line"></div>
+  <div class="error-title">Acceso denegado</div>
+  <p class="error-copy">No tienes permisos para ver este contenido. Contacta a un administrador si crees que es un error.</p>
+
+  <div class="error-actions">
+    <a href="/dashboard" class="btn-primary waves-effect">
+      <i class="material-icons">home</i>
+      Ir al inicio
+    </a>
+    <a href="javascript:history.back()" class="btn-secondary waves-effect">
+      <i class="material-icons">arrow_back</i>
+      Volver
+    </a>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

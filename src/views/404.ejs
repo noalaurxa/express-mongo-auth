@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Página no encontrada</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --cream: #f7f4ef;
+      --gold: #c9a84c;
+      --muted: #6b6560;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '404';
+      position: fixed;
+      font-family: 'Playfair Display', serif;
+      font-size: 40vw;
+      color: rgba(201,168,76,0.04);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .error-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--ink);
+      margin-bottom: 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error-logo span { color: var(--gold); }
+
+    .error-code {
+      font-family: 'Playfair Display', serif;
+      font-size: 7rem;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error-line {
+      width: 50px;
+      height: 2px;
+      background: var(--gold);
+      margin: 0.8rem auto 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error-copy {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 300;
+      max-width: 320px;
+      line-height: 1.8;
+      margin: 0 auto 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.8rem;
+      border-radius: 2px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover { background: #222; color: #fff; }
+    .btn-primary .material-icons { font-size: 1rem; }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.8rem;
+      border-radius: 2px;
+      border: 1px solid #d4cfc9;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-secondary .material-icons { font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="error-logo">Axis<span>.</span></div>
+
+  <div class="error-code">404</div>
+  <div class="error-line"></div>
+  <div class="error-title">Página no encontrada</div>
+  <p class="error-copy">La dirección que buscas no existe o fue movida. Verifica la URL o regresa al inicio.</p>
+
+  <div class="error-actions">
+    <a href="/dashboard" class="btn-primary waves-effect">
+      <i class="material-icons">home</i>
+      Ir al inicio
+    </a>
+    <a href="javascript:history.back()" class="btn-secondary waves-effect">
+      <i class="material-icons">arrow_back</i>
+      Volver
+    </a>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

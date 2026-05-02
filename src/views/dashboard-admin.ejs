@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --cream: #f7f4ef;
+      --gold: #c9a84c;
+      --gold-light: #e8d5a3;
+      --muted: #6b6560;
+      --border: #e0dbd4;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--ink) !important;
+      box-shadow: none !important;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-left { display: flex; align-items: center; gap: 2rem; }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .admin-badge {
+      background: rgba(201,168,76,0.15);
+      color: var(--gold);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 2px;
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 0.8rem; }
+
+    .nav-link {
+      color: rgba(255,255,255,0.5) !important;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0 0.8rem;
+      transition: color 0.2s;
+      height: 60px;
+      line-height: 60px;
+      display: inline-block;
+    }
+
+    .nav-link:hover { color: var(--gold) !important; }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(201,168,76,0.12);
+      border: none;
+      color: var(--gold);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .logout-btn:hover { background: rgba(201,168,76,0.22); }
+    .logout-btn .material-icons { font-size: 0.95rem; }
+
+    /* MAIN */
+    .page-main {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .page-header-left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+
+    .page-header-left p {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 300;
+    }
+
+    /* Search bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0 1rem;
+      height: 40px;
+      gap: 0.5rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    }
+
+    .search-bar .material-icons {
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: var(--ink);
+      background: transparent;
+      width: 200px;
+    }
+
+    .search-bar input::placeholder { color: var(--muted); }
+
+    /* TABLE CARD */
+    .table-card {
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .table-card-header {
+      padding: 1.2rem 1.8rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .table-card-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .user-count {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* Materialize table overrides */
+    table.highlight > tbody > tr:hover {
+      background: #faf9f7 !important;
+    }
+
+    table thead tr {
+      background: transparent !important;
+    }
+
+    table thead tr th {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.8rem;
+    }
+
+    table tbody tr td {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: var(--ink);
+      border-bottom: 1px solid #faf8f5;
+      padding: 1rem 1.8rem;
+      vertical-align: middle;
+    }
+
+    table tbody tr:last-child td { border-bottom: none; }
+
+    .user-avatar-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .user-mini-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      color: #fff;
+    }
+
+    .user-mini-name {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    .date-cell {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 300;
+    }
+
+    .action-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Skeleton */
+    .skeleton {
+      animation: pulse 1.4s ease-in-out infinite;
+      background: linear-gradient(90deg, #f0ede8 25%, #e8e4de 50%, #f0ede8 75%);
+      background-size: 400% 100%;
+      border-radius: 3px;
+    }
+
+    @keyframes pulse {
+      0% { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
+    }
+
+    .empty-state {
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty-state .material-icons { font-size: 2.5rem; margin-bottom: 0.8rem; display: block; }
+    .empty-state p { font-size: 0.88rem; }
+
+    @media (max-width: 680px) {
+      .page-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      table thead th:nth-child(3),
+      table tbody td:nth-child(3) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <div class="nav-logo">Axis<span>.</span></div>
+      <div class="admin-badge">Admin</div>
+    </div>
+    <div class="nav-right">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/profile" class="nav-link">Perfil</a>
+      <button class="logout-btn" onclick="logout()">
+        <i class="material-icons">logout</i> Salir
+      </button>
+    </div>
+  </nav>
+
+  <div class="page-main">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>Panel de administración</h1>
+        <p>Gestión de usuarios registrados en el sistema</p>
+      </div>
+      <div class="search-bar">
+        <i class="material-icons">search</i>
+        <input type="text" id="searchInput" placeholder="Buscar usuario...">
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-card-header">
+        <h3>Usuarios</h3>
+        <span class="user-count" id="userCount">Cargando...</span>
+      </div>
+
+      <table class="highlight responsive-table">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Correo electrónico</th>
+            <th>Fecha de registro</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- skeleton rows -->
+          <tr><td colspan="4"><div class="skeleton" style="height:14px;width:80%;margin:0.5rem 0;">&nbsp;</div></td></tr>
+          <tr><td colspan="4"><div class="skeleton" style="height:14px;width:65%;margin:0.5rem 0;">&nbsp;</div></td></tr>
+          <tr><td colspan="4"><div class="skeleton" style="height:14px;width:72%;margin:0.5rem 0;">&nbsp;</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    let allUsers = [];
+
+    function logout() {
+      sessionStorage.removeItem("token");
+      window.location.href = "/signIn";
+    }
+
+    function formatDate(str) {
+      if (!str) return '—';
+      const d = new Date(str);
+      return d.toLocaleDateString('es-PE', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function getInitials(name, lastName) {
+      return ((name?.[0] || '') + (lastName?.[0] || '')).toUpperCase() || '?';
+    }
+
+    function renderTable(users) {
+      const body = document.getElementById('tableBody');
+      if (!users.length) {
+        body.innerHTML = `
+          <tr><td colspan="4">
+            <div class="empty-state">
+              <i class="material-icons">people_outline</i>
+              <p>No se encontraron usuarios</p>
+            </div>
+          </td></tr>`;
+        return;
+      }
+
+      body.innerHTML = users.map(u => `
+        <tr>
+          <td>
+            <div class="user-avatar-cell">
+              <div class="user-mini-avatar">${getInitials(u.name, u.lastName)}</div>
+              <div class="user-mini-name">${u.name || ''} ${u.lastName || ''}</div>
+            </div>
+          </td>
+          <td>${u.email || '—'}</td>
+          <td class="date-cell">${formatDate(u.createdAt)}</td>
+          <td><button class="action-btn">Ver</button></td>
+        </tr>
+      `).join('');
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      const filtered = allUsers.filter(u =>
+        (u.email || '').toLowerCase().includes(q) ||
+        (u.name || '').toLowerCase().includes(q) ||
+        (u.lastName || '').toLowerCase().includes(q)
+      );
+      renderTable(filtered);
+    });
+
+    async function load() {
+      const token = sessionStorage.getItem("token");
+      if (!token) return window.location.href = "/signIn";
+
+      try {
+        const res = await fetch("/api/users", {
+          headers: { Authorization: "Bearer " + token }
+        });
+
+        if (res.status === 403) return window.location.href = "/403";
+        if (res.status === 401) return window.location.href = "/signIn";
+        if (!res.ok) throw new Error();
+
+        allUsers = await res.json();
+        document.getElementById('userCount').textContent =
+          `${allUsers.length} usuario${allUsers.length !== 1 ? 's' : ''}`;
+        renderTable(allUsers);
+
+      } catch {
+        M.toast({ html: 'Error al cargar usuarios', classes: 'rounded red darken-2' });
+        document.getElementById('tableBody').innerHTML = `
+          <tr><td colspan="4">
+            <div class="empty-state">
+              <i class="material-icons">error_outline</i>
+              <p>Error al cargar los datos</p>
+            </div>
+          </td></tr>`;
+      }
+    }
+
+    load();
+  </script>
+</body>
+</html>

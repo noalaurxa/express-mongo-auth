@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Perfil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --cream: #f7f4ef;
+      --gold: #c9a84c;
+      --gold-light: #e8d5a3;
+      --muted: #6b6560;
+      --border: #e0dbd4;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--ink) !important;
+      box-shadow: none !important;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #fff; }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-actions { display: flex; align-items: center; gap: 0.5rem; }
+
+    .nav-link {
+      color: rgba(255,255,255,0.55) !important;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0 1rem;
+      transition: color 0.2s;
+      height: 60px;
+      line-height: 60px;
+      display: inline-block;
+    }
+    .nav-link:hover { color: var(--gold) !important; }
+    .nav-link.active { color: var(--gold) !important; border-bottom: 2px solid var(--gold); }
+
+    .logout-btn {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: rgba(201,168,76,0.12);
+      border: none; color: var(--gold);
+      font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: 2px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .logout-btn:hover { background: rgba(201,168,76,0.22); }
+    .logout-btn .material-icons { font-size: 0.95rem; }
+
+    /* ── LAYOUT ── */
+    .page-main {
+      max-width: 980px;
+      margin: 3rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+
+    .page-sub {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    /* ── AVATAR CARD ── */
+    .avatar-card {
+      background: #fff;
+      border-radius: 4px;
+      padding: 2.5rem 1.8rem;
+      text-align: center;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 80px;
+    }
+
+    .avatar-img-wrap {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      margin: 0 auto 1.2rem;
+      position: relative;
+    }
+
+    .avatar-img-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+    }
+
+    .avatar-photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .avatar-fallback {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .avatar-fallback .material-icons { color: #fff; font-size: 2.4rem; }
+
+    .avatar-initials {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+
+    .avatar-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+      min-height: 1.5rem;
+    }
+
+    .avatar-email {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 1.4rem;
+      word-break: break-all;
+      min-height: 1rem;
+    }
+
+    .roles-wrap { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; min-height: 26px; }
+
+    .role-chip {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--gold);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.28rem 0.75rem;
+      border-radius: 2px;
+      font-weight: 500;
+    }
+
+    .avatar-member-since {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-top: 1.4rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border);
+      min-height: 2.5rem;
+    }
+
+    .avatar-member-since strong {
+      display: block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.2rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* ── INFO STACK ── */
+    .info-stack { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .info-card {
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .info-card-header {
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .info-card-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .edit-icon {
+      color: var(--muted);
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .edit-icon:hover { color: var(--gold); }
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      padding: 1.1rem 2rem;
+      border-bottom: 1px solid #faf9f7;
+      gap: 1rem;
+    }
+    .info-row:last-child { border-bottom: none; }
+
+    .info-row-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid #faf9f7;
+    }
+    .info-row-grid:last-child { border-bottom: none; }
+    .info-row-grid .info-row { border-bottom: none; }
+
+    .info-icon { color: var(--muted); font-size: 1.1rem; flex-shrink: 0; width: 22px; margin-top: 1px; }
+
+    .info-content { flex: 1; }
+
+    .info-label {
+      font-size: 0.71rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      margin-bottom: 0.18rem;
+    }
+
+    .info-value {
+      font-size: 0.93rem;
+      color: var(--ink);
+      font-weight: 400;
+      line-height: 1.5;
+      min-height: 1.2rem;
+    }
+
+    .info-value.empty {
+      color: #b8b3ac;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+
+    .age-badge {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.3rem;
+    }
+    .age-badge .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .age-badge .unit { font-size: 0.82rem; color: var(--muted); }
+
+    /* ── SKELETON ── */
+    .skeleton {
+      animation: pulse 1.4s ease-in-out infinite;
+      background: linear-gradient(90deg,#f0ede8 25%,#e8e4de 50%,#f0ede8 75%);
+      background-size: 400% 100%;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    @keyframes pulse {
+      0%   { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
+    }
+    .skel-line { height: 13px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      .profile-grid { grid-template-columns: 1fr; }
+      .avatar-card { position: static; }
+      .info-row-grid { grid-template-columns: 1fr; }
+      .info-row-grid .info-row:not(:last-child) { border-bottom: 1px solid #faf9f7; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">Axis<span>.</span></div>
+    <div class="nav-actions">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/profile" class="nav-link active">Mi perfil</a>
+      <button class="logout-btn" onclick="logout()">
+        <i class="material-icons">logout</i> Salir
+      </button>
+    </div>
+  </nav>
+
+  <div class="page-main">
+    <div class="page-title">Mi perfil</div>
+    <p class="page-sub">Información de tu cuenta</p>
+
+    <div class="profile-grid">
+
+      <!-- AVATAR SIDEBAR -->
+      <div class="avatar-card">
+        <div class="avatar-img-wrap" id="avatarWrap">
+          <div class="avatar-fallback"><i class="material-icons">person</i></div>
+        </div>
+
+        <div class="avatar-name" id="avatarName">
+          <span class="skeleton skel-line" style="width:130px;">&nbsp;</span>
+        </div>
+        <div class="avatar-email" id="avatarEmail">
+          <span class="skeleton skel-line" style="width:160px;">&nbsp;</span>
+        </div>
+
+        <div class="roles-wrap" id="avatarRoles">
+          <span class="skeleton skel-line" style="width:72px;height:22px;">&nbsp;</span>
+        </div>
+
+        <div class="avatar-member-since" id="memberSince">
+          <strong>Miembro desde</strong>
+          <span class="skeleton skel-line" style="width:100px;">&nbsp;</span>
+        </div>
+      </div>
+
+      <!-- INFO STACK -->
+      <div class="info-stack">
+
+        <!-- Card: Datos personales -->
+        <div class="info-card">
+          <div class="info-card-header">
+            <h3>Datos personales</h3>
+            <i class="material-icons edit-icon tooltipped" data-position="left" data-tooltip="Editar perfil">edit</i>
+          </div>
+
+          <div class="info-row-grid">
+            <div class="info-row">
+              <i class="material-icons info-icon">person_outline</i>
+              <div class="info-content">
+                <div class="info-label">Nombre</div>
+                <div class="info-value" id="nameVal"><span class="skeleton skel-line" style="width:100px;">&nbsp;</span></div>
+              </div>
+            </div>
+            <div class="info-row">
+              <i class="material-icons info-icon">person_outline</i>
+              <div class="info-content">
+                <div class="info-label">Apellido</div>
+                <div class="info-value" id="lastNameVal"><span class="skeleton skel-line" style="width:100px;">&nbsp;</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-row-grid">
+            <div class="info-row">
+              <i class="material-icons info-icon">cake</i>
+              <div class="info-content">
+                <div class="info-label">Fecha de nacimiento</div>
+                <div class="info-value" id="birthdateVal"><span class="skeleton skel-line" style="width:130px;">&nbsp;</span></div>
+              </div>
+            </div>
+            <div class="info-row">
+              <i class="material-icons info-icon">today</i>
+              <div class="info-content">
+                <div class="info-label">Edad</div>
+                <div class="info-value" id="ageVal"><span class="skeleton skel-line" style="width:55px;">&nbsp;</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card: Contacto -->
+        <div class="info-card">
+          <div class="info-card-header">
+            <h3>Contacto</h3>
+            <i class="material-icons edit-icon tooltipped" data-position="left" data-tooltip="Editar contacto">edit</i>
+          </div>
+
+          <div class="info-row">
+            <i class="material-icons info-icon">mail_outline</i>
+            <div class="info-content">
+              <div class="info-label">Correo electrónico</div>
+              <div class="info-value" id="emailVal"><span class="skeleton skel-line" style="width:190px;">&nbsp;</span></div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <i class="material-icons info-icon">phone_iphone</i>
+            <div class="info-content">
+              <div class="info-label">Teléfono</div>
+              <div class="info-value" id="phoneVal"><span class="skeleton skel-line" style="width:130px;">&nbsp;</span></div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <i class="material-icons info-icon">location_on</i>
+            <div class="info-content">
+              <div class="info-label">Dirección</div>
+              <div class="info-value" id="addressVal"><span class="skeleton skel-line" style="width:180px;">&nbsp;</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card: Cuenta -->
+        <div class="info-card">
+          <div class="info-card-header">
+            <h3>Cuenta</h3>
+          </div>
+
+          <div class="info-row">
+            <i class="material-icons info-icon">shield</i>
+            <div class="info-content">
+              <div class="info-label">Roles asignados</div>
+              <div class="info-value" id="rolesVal"><span class="skeleton skel-line" style="width:90px;">&nbsp;</span></div>
+            </div>
+          </div>
+
+          <div class="info-row-grid">
+            <div class="info-row">
+              <i class="material-icons info-icon">event_available</i>
+              <div class="info-content">
+                <div class="info-label">Miembro desde</div>
+                <div class="info-value" id="createdAtVal"><span class="skeleton skel-line" style="width:120px;">&nbsp;</span></div>
+              </div>
+            </div>
+            <div class="info-row">
+              <i class="material-icons info-icon">update</i>
+              <div class="info-content">
+                <div class="info-label">Última actualización</div>
+                <div class="info-value" id="updatedAtVal"><span class="skeleton skel-line" style="width:120px;">&nbsp;</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /info-stack -->
+    </div><!-- /profile-grid -->
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    M.AutoInit();
+
+    function logout() {
+      sessionStorage.removeItem("token");
+      window.location.href = "/signIn";
+    }
+
+    /* helpers */
+    function fmtDate(str) {
+      if (!str) return null;
+      return new Date(str).toLocaleDateString('es-PE', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+    }
+
+    function fmtShort(str) {
+      if (!str) return null;
+      return new Date(str).toLocaleDateString('es-PE', {
+        year: 'numeric', month: 'short'
+      });
+    }
+
+    function calcAge(birthdateStr) {
+      if (!birthdateStr) return null;
+      const bday = new Date(birthdateStr);
+      const now  = new Date();
+      let age = now.getFullYear() - bday.getFullYear();
+      const m = now.getMonth() - bday.getMonth();
+      if (m < 0 || (m === 0 && now.getDate() < bday.getDate())) age--;
+      return age;
+    }
+
+    function setVal(id, html, isEmpty) {
+      const el = document.getElementById(id);
+      if (isEmpty) {
+        el.innerHTML = 'No especificado';
+        el.classList.add('empty');
+      } else {
+        el.innerHTML = html;
+        el.classList.remove('empty');
+      }
+    }
+
+    function roleLabel(r) {
+      // r can be a populated object {_id, name} or a plain string id
+      return typeof r === 'object' ? (r.name || r._id) : r;
+    }
+
+    /* main */
+    async function load() {
+      const token = sessionStorage.getItem("token");
+      if (!token) return window.location.href = "/signIn";
+
+      try {
+        const res = await fetch("/api/users/me", {
+          headers: { Authorization: "Bearer " + token }
+        });
+
+        if (res.status === 401) return window.location.href = "/signIn";
+        if (!res.ok) throw new Error();
+
+        const u = await res.json();
+
+        /* ── Avatar sidebar ── */
+        const wrap = document.getElementById('avatarWrap');
+        if (u.url_profile) {
+          wrap.innerHTML = `<img class="avatar-photo" src="${u.url_profile}" alt="Foto de perfil">`;
+        } else {
+          const initials = ((u.name?.[0] || '') + (u.lastName?.[0] || '')).toUpperCase();
+          wrap.innerHTML = initials
+            ? `<div class="avatar-initials">${initials}</div>`
+            : `<div class="avatar-fallback"><i class="material-icons">person</i></div>`;
+        }
+
+        document.getElementById('avatarName').textContent =
+          [u.name, u.lastName].filter(Boolean).join(' ') || '—';
+
+        document.getElementById('avatarEmail').textContent = u.email || '—';
+
+        const rolesWrap = document.getElementById('avatarRoles');
+        rolesWrap.innerHTML = (u.roles && u.roles.length)
+          ? u.roles.map(r => `<span class="role-chip">${roleLabel(r)}</span>`).join('')
+          : `<span class="role-chip">Sin rol</span>`;
+
+        const ms = document.getElementById('memberSince');
+        ms.innerHTML = `<strong>Miembro desde</strong>${fmtShort(u.createdAt) || '—'}`;
+
+        /* ── Personal data ── */
+        setVal('nameVal',     u.name      || '', !u.name);
+        setVal('lastNameVal', u.lastName  || '', !u.lastName);
+        setVal('birthdateVal', fmtDate(u.birthdate) || '', !u.birthdate);
+
+        const age = calcAge(u.birthdate);
+        if (age !== null) {
+          document.getElementById('ageVal').innerHTML =
+            `<div class="age-badge"><span class="num">${age}</span><span class="unit">años</span></div>`;
+        } else {
+          setVal('ageVal', '', true);
+        }
+
+        /* ── Contacto ── */
+        setVal('emailVal',   u.email       || '', !u.email);
+        setVal('phoneVal',   u.phoneNumber || '', !u.phoneNumber);
+        setVal('addressVal', u.address     || '', !u.address);
+
+        /* ── Cuenta ── */
+        const rolesEl = document.getElementById('rolesVal');
+        if (u.roles && u.roles.length) {
+          rolesEl.innerHTML = u.roles
+            .map(r => `<span class="role-chip" style="margin-right:5px">${roleLabel(r)}</span>`)
+            .join('');
+        } else {
+          setVal('rolesVal', '', true);
+        }
+
+        setVal('createdAtVal', fmtDate(u.createdAt) || '', !u.createdAt);
+        setVal('updatedAtVal', fmtDate(u.updatedAt) || '', !u.updatedAt);
+
+      } catch {
+        M.toast({ html: 'Error al cargar el perfil', classes: 'rounded red darken-2' });
+      }
+    }
+
+    load();
+  </script>
+</body>
+</html>

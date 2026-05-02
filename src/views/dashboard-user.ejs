@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --cream: #f7f4ef;
+      --gold: #c9a84c;
+      --gold-light: #e8d5a3;
+      --muted: #6b6560;
+      --border: #e0dbd4;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--ink) !important;
+      box-shadow: none !important;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-link {
+      color: rgba(255,255,255,0.55) !important;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0 0.8rem;
+      transition: color 0.2s;
+      height: 60px;
+      line-height: 60px;
+      display: inline-block;
+    }
+
+    .nav-link:hover { color: var(--gold) !important; }
+    .nav-link.active { color: var(--gold) !important; border-bottom: 2px solid var(--gold); }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(201,168,76,0.12);
+      border: none;
+      color: var(--gold);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .logout-btn:hover { background: rgba(201,168,76,0.22); }
+    .logout-btn .material-icons { font-size: 1rem; }
+
+    /* MAIN */
+    .page-main {
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* HERO */
+    .hero-band {
+      background: var(--ink);
+      border-radius: 4px;
+      padding: 2.5rem 2.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-band::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 50px solid rgba(201,168,76,0.1);
+      right: -80px;
+      top: -80px;
+    }
+
+    .hero-band::after {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.04);
+      right: 180px;
+      bottom: -60px;
+    }
+
+    .hero-greeting {
+      font-size: 0.78rem;
+      color: var(--gold);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--gold);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.4rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-cta:hover { background: var(--gold-light); color: var(--ink); }
+    .hero-cta .material-icons { font-size: 1rem; }
+
+    /* STATS */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 4px;
+      padding: 1.8rem 2rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+
+    .stat-card:hover::after { transform: scaleX(1); }
+
+    .stat-icon {
+      color: var(--muted);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+    }
+
+    /* QUICK LINKS */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .quick-card {
+      background: #fff;
+      border-radius: 4px;
+      padding: 1.5rem 1.8rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .quick-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    .quick-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 3px;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .quick-icon .material-icons { color: var(--ink); font-size: 1.3rem; }
+
+    .quick-text h4 {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.15rem;
+    }
+
+    .quick-text p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    @media (max-width: 640px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .quick-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">Axis<span>.</span></div>
+    <div class="nav-right">
+      <a href="/dashboard" class="nav-link active">Dashboard</a>
+      <a href="/profile" class="nav-link">Mi perfil</a>
+      <button class="logout-btn" onclick="logout()">
+        <i class="material-icons">logout</i> Salir
+      </button>
+    </div>
+  </nav>
+
+  <div class="page-main">
+    <!-- Hero -->
+    <div class="hero-band">
+      <div class="hero-greeting">Panel de control</div>
+      <div class="hero-title">Bienvenido de vuelta</div>
+      <a href="/profile" class="hero-cta">
+        <i class="material-icons">account_circle</i>
+        Ver mi cuenta
+      </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <i class="material-icons stat-icon">people_outline</i>
+        <div class="stat-value" id="statUsers">—</div>
+        <div class="stat-label">Usuarios</div>
+      </div>
+      <div class="stat-card">
+        <i class="material-icons stat-icon">shield</i>
+        <div class="stat-value">1</div>
+        <div class="stat-label">Mi rol</div>
+      </div>
+      <div class="stat-card">
+        <i class="material-icons stat-icon">verified_user</i>
+        <div class="stat-value">Activo</div>
+        <div class="stat-label">Estado</div>
+      </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="section-title">Accesos rápidos</div>
+    <div class="quick-grid">
+      <a href="/profile" class="quick-card">
+        <div class="quick-icon"><i class="material-icons">person_outline</i></div>
+        <div class="quick-text">
+          <h4>Mi perfil</h4>
+          <p>Ver y editar tu información personal</p>
+        </div>
+      </a>
+      <button class="quick-card" onclick="logout()">
+        <div class="quick-icon"><i class="material-icons">logout</i></div>
+        <div class="quick-text">
+          <h4>Cerrar sesión</h4>
+          <p>Salir de tu cuenta de forma segura</p>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    function logout() {
+      sessionStorage.removeItem("token");
+      M.toast({ html: 'Sesión cerrada', classes: 'rounded' });
+      setTimeout(() => window.location.href = "/signIn", 700);
+    }
+
+    // Optional: load user count if token present and admin
+    async function init() {
+      const token = sessionStorage.getItem("token");
+      if (!token) return window.location.href = "/signIn";
+
+      try {
+        const res = await fetch("/api/users", {
+          headers: { Authorization: "Bearer " + token }
+        });
+        if (res.ok) {
+          const users = await res.json();
+          document.getElementById('statUsers').textContent = users.length;
+        }
+      } catch {}
+    }
+
+    init();
+  </script>
+</body>
+</html>

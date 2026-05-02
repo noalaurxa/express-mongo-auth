@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --cream: #f7f4ef;
+      --gold: #c9a84c;
+      --gold-light: #e8d5a3;
+      --muted: #6b6560;
+      --card-bg: #ffffff;
+      --border: #e0dbd4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .split-layout {
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    .brand-panel {
+      width: 38%;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 4rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-panel::before {
+      content: '';
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      border: 60px solid rgba(201,168,76,0.12);
+      top: -80px;
+      right: -80px;
+    }
+
+    .brand-panel::after {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 40px solid rgba(201,168,76,0.08);
+      bottom: 60px;
+      left: -60px;
+    }
+
+    .brand-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-logo span { color: var(--gold); }
+
+    .brand-tagline {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.85rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-copy {
+      color: rgba(255,255,255,0.6);
+      font-size: 1rem;
+      line-height: 1.8;
+      max-width: 260px;
+      position: relative;
+      z-index: 1;
+      font-weight: 300;
+    }
+
+    .signin-link-panel {
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signin-link-panel p {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.82rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .signin-link-panel a {
+      color: var(--gold);
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .signin-link-panel a:hover { color: var(--gold-light); }
+
+    .form-panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      overflow-y: auto;
+    }
+
+    .form-card {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .form-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .form-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-header p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 300;
+    }
+
+    /* Materialize overrides */
+    .input-field label {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--muted) !important;
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+
+    .input-field input,
+    .input-field input[type=text],
+    .input-field input[type=email],
+    .input-field input[type=password],
+    .input-field input[type=date] {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink) !important;
+      border-bottom: 1.5px solid var(--border) !important;
+      box-shadow: none !important;
+    }
+
+    .input-field input:focus {
+      border-bottom: 1.5px solid var(--gold) !important;
+      box-shadow: 0 1px 0 0 var(--gold) !important;
+    }
+
+    .input-field input:focus + label,
+    .input-field input.valid + label,
+    .input-field input:not([value='']) + label {
+      color: var(--gold) !important;
+    }
+
+    .input-field .prefix {
+      color: var(--muted);
+    }
+
+    .input-field .prefix.active {
+      color: var(--gold) !important;
+    }
+
+    .row { margin-bottom: 0; }
+
+    .col { padding: 0 8px; }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--ink) !important;
+      color: #fff !important;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 3px;
+      height: 52px;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.15s;
+      margin-top: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 0;
+    }
+
+    .submit-btn:hover::after { transform: translateX(0); }
+    .submit-btn span { position: relative; z-index: 1; }
+
+    .toast-area {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 999;
+    }
+
+    @media (max-width: 768px) {
+      .brand-panel { display: none; }
+      .form-panel { padding: 2rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="split-layout">
+    <!-- Brand side -->
+    <div class="brand-panel">
+      <div class="brand-logo">Axis<span>.</span></div>
+      <div class="brand-tagline">Plataforma de gestión</div>
+      <div class="brand-divider"></div>
+      <p class="brand-copy">Crea tu cuenta y accede a todas las herramientas de tu organización desde un solo lugar.</p>
+      <div class="signin-link-panel">
+        <p>¿Ya tienes cuenta?</p>
+        <a href="/signIn">Iniciar sesión &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Form side -->
+    <div class="form-panel">
+      <div class="form-card">
+        <div class="form-header">
+          <h2>Crear cuenta</h2>
+          <p>Completa todos los campos para registrarte</p>
+        </div>
+
+        <form id="form">
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <i class="material-icons prefix" style="font-size:1.3rem;top:0.6rem;">person_outline</i>
+              <input id="name" type="text" required>
+              <label for="name">Nombre</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <i class="material-icons prefix" style="font-size:1.3rem;top:0.6rem;">person_outline</i>
+              <input id="lastName" type="text" required>
+              <label for="lastName">Apellido</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12 m6">
+              <i class="material-icons prefix" style="font-size:1.3rem;top:0.6rem;">phone_iphone</i>
+              <input id="phoneNumber" type="text" required>
+              <label for="phoneNumber">Teléfono</label>
+            </div>
+            <div class="input-field col s12 m6">
+              <i class="material-icons prefix" style="font-size:1.3rem;top:0.6rem;">event</i>
+              <input id="birthdate" type="date" required class="datepicker" style="padding-left:3rem;">
+              <label for="birthdate" class="active">Fecha de nacimiento</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix" style="font-size:1.3rem;top:0.6rem;">mail_outline</i>
+              <input id="email" type="email" required>
+              <label for="email">Correo electrónico</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix" style="font-size:1.3rem;top:0.6rem;">lock_outline</i>
+              <input id="password" type="password" required minlength="6">
+              <label for="password">Contraseña</label>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn waves-effect">
+            <span>Registrarse</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    M.AutoInit();
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.submit-btn');
+      btn.disabled = true;
+      btn.querySelector('span').textContent = 'Registrando...';
+
+      try {
+        const res = await fetch("/api/auth/signUp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name.value,
+            lastName: lastName.value,
+            phoneNumber: phoneNumber.value,
+            birthdate: birthdate.value,
+            email: email.value,
+            password: password.value
+          })
+        });
+
+        if (!res.ok) throw new Error("Error al registrar");
+        M.toast({ html: '¡Cuenta creada exitosamente!', classes: 'rounded' });
+        setTimeout(() => window.location.href = "/signIn", 1200);
+      } catch (err) {
+        M.toast({ html: err.message || 'Ocurrió un error', classes: 'rounded red darken-2' });
+        btn.disabled = false;
+        btn.querySelector('span').textContent = 'Registrarse';
+      }
+    };
+  </script>
+</body>
+</html>

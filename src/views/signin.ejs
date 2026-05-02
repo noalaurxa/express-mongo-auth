@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    :root {
+      --ink: #0d0d0d;
+      --cream: #f7f4ef;
+      --gold: #c9a84c;
+      --gold-light: #e8d5a3;
+      --muted: #6b6560;
+      --border: #e0dbd4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* Decorative BG */
+    body::before {
+      content: '';
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      border: 80px solid rgba(201,168,76,0.08);
+      top: -150px;
+      right: -150px;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 50px solid rgba(13,13,13,0.05);
+      bottom: -80px;
+      left: -80px;
+      pointer-events: none;
+    }
+
+    .login-wrap {
+      display: flex;
+      width: 100%;
+      max-width: 900px;
+      min-height: 560px;
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 8px 60px rgba(0,0,0,0.08);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Illustration side */
+    .visual-side {
+      width: 42%;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .visual-side::before {
+      content: '';
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.06);
+      top: -60px;
+      right: -60px;
+    }
+
+    .visual-side::after {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.06);
+      bottom: -40px;
+      left: -40px;
+    }
+
+    .brand-mark {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .brand-mark .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .brand-mark .logo span { color: var(--gold); }
+
+    .brand-mark .tagline {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    .visual-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 2rem auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .visual-copy {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.88rem;
+      text-align: center;
+      line-height: 1.9;
+      font-weight: 300;
+      max-width: 200px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .register-prompt {
+      position: relative;
+      z-index: 1;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+
+    .register-prompt p {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 0.4rem;
+    }
+
+    .register-prompt a {
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .register-prompt a:hover { color: var(--gold-light); }
+
+    /* Form side */
+    .form-side {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 3rem;
+    }
+
+    .form-inner {
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .form-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+
+    .form-inner .sub {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Materialize overrides */
+    .input-field label {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--muted) !important;
+      font-size: 0.85rem;
+    }
+
+    .input-field input {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink) !important;
+      border-bottom: 1.5px solid var(--border) !important;
+      box-shadow: none !important;
+    }
+
+    .input-field input:focus {
+      border-bottom: 1.5px solid var(--gold) !important;
+      box-shadow: 0 1px 0 0 var(--gold) !important;
+    }
+
+    .input-field input:focus + label {
+      color: var(--gold) !important;
+    }
+
+    .input-field .prefix { color: var(--muted); }
+    .input-field .prefix.active { color: var(--gold) !important; }
+
+    .forgot-link {
+      display: block;
+      text-align: right;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-decoration: none;
+      margin-top: -0.5rem;
+      margin-bottom: 1.8rem;
+      transition: color 0.2s;
+    }
+
+    .forgot-link:hover { color: var(--gold); }
+
+    .login-btn {
+      width: 100%;
+      background: var(--ink) !important;
+      color: #fff !important;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 3px;
+      height: 52px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s;
+    }
+
+    .login-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 0;
+    }
+
+    .login-btn:hover::after { transform: translateX(0); }
+    .login-btn span { position: relative; z-index: 1; }
+
+    @media (max-width: 640px) {
+      .visual-side { display: none; }
+      .form-side { padding: 2.5rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="visual-side">
+      <div class="brand-mark">
+        <div class="logo">Axis<span>.</span></div>
+        <div class="tagline">Plataforma de gestión</div>
+      </div>
+      <div class="visual-divider"></div>
+      <p class="visual-copy">Tu espacio centralizado para gestionar usuarios, roles y recursos.</p>
+      <div class="register-prompt">
+        <p>¿No tienes una cuenta?</p>
+        <a href="/signUp">Regístrate aquí &rarr;</a>
+      </div>
+    </div>
+
+    <div class="form-side">
+      <div class="form-inner">
+        <h2>Bienvenido</h2>
+        <p class="sub">Ingresa tus credenciales para continuar</p>
+
+        <form id="loginForm">
+          <div class="input-field">
+            <i class="material-icons prefix" style="font-size:1.3rem;top:0.6rem;">mail_outline</i>
+            <input id="email" type="email" required>
+            <label for="email">Correo electrónico</label>
+          </div>
+
+          <div class="input-field">
+            <i class="material-icons prefix" style="font-size:1.3rem;top:0.6rem;">lock_outline</i>
+            <input id="password" type="password" required>
+            <label for="password">Contraseña</label>
+          </div>
+
+          <a href="/forgot" class="forgot-link">¿Olvidaste tu contraseña?</a>
+
+          <button type="submit" class="login-btn waves-effect">
+            <span>Ingresar</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    loginForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const btn = loginForm.querySelector('.login-btn');
+      btn.disabled = true;
+      btn.querySelector('span').textContent = 'Verificando...';
+
+      try {
+        const res = await fetch("/api/auth/signIn", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email.value, password: password.value })
+        });
+
+        if (!res.ok) throw new Error("Credenciales incorrectas");
+        const data = await res.json();
+        sessionStorage.setItem("token", data.token);
+        M.toast({ html: '¡Sesión iniciada!', classes: 'rounded' });
+        setTimeout(() => window.location.href = "/dashboard", 800);
+      } catch (err) {
+        M.toast({ html: err.message, classes: 'rounded red darken-2' });
+        btn.disabled = false;
+        btn.querySelector('span').textContent = 'Ingresar';
+      }
+    };
+  </script>
+</body>
+</html>
